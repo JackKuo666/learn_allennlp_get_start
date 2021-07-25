@@ -1,0 +1,45 @@
+{
+    "dataset_reader": {
+        "type": "classification-tsv",
+        "max_tokens": 512,
+        "token_indexers": {
+            "bert": {
+                "type": "pretrained_transformer",
+                "model_name": "bert_pretrain/"
+            }
+        },
+        "tokenizer": {
+            "type": "pretrained_transformer",
+            "model_name": "bert_pretrain/"
+        }
+    },
+    "model": {
+        "type": "simple_classifier",
+        "embedder": {
+            "token_embedders": {
+                "bert": {
+                    "type": "pretrained_transformer",
+                    "model_name": "bert_pretrain/"
+                }
+            }
+        },
+        "encoder": {
+            "type": "bert_pooler",
+            "pretrained_model": "bert_pretrain/",
+            "requires_grad": true
+        }
+    },
+    "train_data_path": "data/movie_review/train_small.tsv",
+    "validation_data_path": "data/movie_review/dev_small.tsv",
+    "trainer": {
+        "num_epochs": 5,
+        "optimizer": {
+            "type": "huggingface_adamw",
+            "lr": 1e-05
+        }
+    },
+    "data_loader": {
+        "batch_size": 8,
+        "shuffle": true
+    }
+}
